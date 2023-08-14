@@ -1,0 +1,19 @@
+body[data-color-mode] {
+  background-color: transparent !important;
+}
+
+.markdown-body img {
+  @apply inline bg-transparent;
+}
+
+.markdown-body img[alt~="screenshot"] {
+  @apply sm:h-80 w-auto;
+}
+
+.markdown-body a > img {
+  @apply max-h-20;
+}
+
+.markdown-body a:has(> img) {
+  @apply no-underline;
+}
