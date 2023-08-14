@@ -1,7 +1,6 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import client from "lib/client";
 import { getSemesterTextFromId } from "lib/format";
 import { graphql } from "gql";
@@ -24,7 +23,7 @@ const getCourseDetail = cache(async (id: string) => {
         }
       }
     `),
-    { id: id },
+    { id: id }
   );
   return response.course_by_pk;
 });
@@ -75,9 +74,6 @@ const CourseDetail: React.FC<{
           {timeAndLocations.length > 0 &&
             timeAndLocations.map((item) => <li key={item}>{item}</li>)}
         </ul>
-        <Link className="btn" href="/courses">
-          返回搜索
-        </Link>
       </div>
     </main>
   );
