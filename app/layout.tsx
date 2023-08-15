@@ -1,4 +1,5 @@
 import "./app.css";
+import BreadCrumbs from "components/Breadcrumbs";
 
 export const metadata = {
   title: {
@@ -23,6 +24,7 @@ export default function RootLayout({
         data-dark-theme="dark"
         className="mx-auto prose dark:prose-invert prose-lg sm:prose-lg md:prose-lg lg:prose-lg xl:prose-xl 2xl:prose-xl"
       >
+        <BreadCrumbs />
         {children}
       </body>
     </html>
