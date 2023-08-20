@@ -87,13 +87,13 @@ const CourseX: React.FC<{
       <p className="pb-8">课程信息共享计划</p>
       {currentSemesterId && currentSemesterCourseCount !== 0 && (
         <p className="pb-4 text-base">
-          已收录本学期 {getSemesterTextFromId(currentSemesterId)}课程{" "}
+          已收录 {getSemesterTextFromId(currentSemesterId)}课程{" "}
           {currentSemesterCourseCount} 门。
         </p>
       )}
       <Suspense
         fallback={
-          <span className="loading loading-spinner loading-lg text-primary"></span>
+          <span className="loading loading-spinner loading-lg text-primary min-h-12"></span>
         }
       >
         <SearchBar />
