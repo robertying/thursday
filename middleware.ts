@@ -11,9 +11,10 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl.pathname.toLowerCase();
 
   if (redirects[url]) {
-    const newUrl = req.nextUrl.clone();
-    newUrl.pathname = redirects[url];
-    const response = NextResponse.redirect(newUrl, 301);
+    const response = NextResponse.redirect(
+      process.env.BASE_URL + redirects[url],
+      301
+    );
     return response;
   }
 
