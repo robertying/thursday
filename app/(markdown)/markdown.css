@@ -3,7 +3,8 @@ body[data-color-mode] {
 }
 
 .markdown-body img {
-  @apply inline bg-transparent;
+  @apply inline;
+  background-color: transparent !important;
 }
 
 .markdown-body img[alt~="screenshot"] {
