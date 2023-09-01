@@ -13,7 +13,7 @@ export function middleware(req: NextRequest) {
   if (redirects[url]) {
     const response = NextResponse.redirect(
       process.env.BASE_URL + redirects[url],
-      301
+      301,
     );
     return response;
   }

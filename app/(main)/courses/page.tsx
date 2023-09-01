@@ -38,7 +38,7 @@ const CourseX: React.FC<{
           }
         }
       `),
-      { semesterId: currentSemesterId }
+      { semesterId: currentSemesterId },
     );
     currentSemesterCourseCount =
       currentSemesterCourseCountResponse.course_aggregate.aggregate?.count ?? 0;
@@ -74,7 +74,7 @@ const CourseX: React.FC<{
           }
         }
       `),
-      { query: `%${query}%`, currentSemesterId: currentSemesterId ?? "0" }
+      { query: `%${query}%`, currentSemesterId: currentSemesterId ?? "0" },
     );
     courses = response.course;
   }

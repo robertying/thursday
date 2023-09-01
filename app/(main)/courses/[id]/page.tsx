@@ -23,7 +23,7 @@ const getCourseDetail = cache(async (id: string) => {
         }
       }
     `),
-    { id: id }
+    { id: id },
   );
   return response.course_by_pk;
 });
