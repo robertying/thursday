@@ -62,7 +62,7 @@ const CourseDetail: React.FC<{
   } catch {}
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center py-16 px-5 prose-h1:mb-2 prose-h2:mt-4 prose-p:my-0">
+    <main className="min-h-screen flex flex-col justify-center items-center py-16 px-5 prose-h1:mb-2 prose-h1:leading-tight prose-h2:mt-4 prose-p:my-0">
       <div className="card p-12 bg-base-100 shadow-xl">
         <h1>{course.name}</h1>
         <h2>{course.teacher.name}</h2>
