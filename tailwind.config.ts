@@ -13,7 +13,7 @@ const config: Config = {
     themes: [
       {
         light: {
-          ...require("daisyui/src/theming/themes")["[data-theme=light]"],
+          ...require("daisyui/src/theming/themes")["light"],
           primary: "#9a25ae",
           "primary-content": "#fff",
           secondary: "#6b586b",
@@ -22,7 +22,7 @@ const config: Config = {
           "accent-content": "#fff",
         },
         dark: {
-          ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
+          ...require("daisyui/src/theming/themes")["dark"],
           primary: "#f9abff",
           "primary-content": "#570066",
           secondary: "#d7bfd5",
