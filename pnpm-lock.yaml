@@ -36,8 +36,8 @@ dependencies:
     specifier: 10.4.16
     version: 10.4.16(postcss@8.4.31)
   daisyui:
-    specifier: 4.0.3
-    version: 4.0.3(postcss@8.4.31)
+    specifier: 4.0.4
+    version: 4.0.4(postcss@8.4.31)
   dotenv:
     specifier: 16.3.1
     version: 16.3.1
@@ -1310,7 +1310,7 @@ packages:
       https-proxy-agent: 7.0.2
       jose: 5.1.0
       js-yaml: 4.1.0
-      json-stable-stringify: 1.0.2
+      json-stable-stringify: 1.1.0
       lodash: 4.17.21
       scuid: 1.1.0
       tslib: 2.6.2
@@ -2525,8 +2525,8 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
-  /daisyui@4.0.3(postcss@8.4.31):
-    resolution: {integrity: sha512-mG6PsdIA6MEHzdJwBlJxc1rqsIAAlcfhj2O8g0ol1uWg5y6C5zTcqfG8vKBqK4y2YfCxGIVgMsMWRTSm32N1Ow==}
+  /daisyui@4.0.4(postcss@8.4.31):
+    resolution: {integrity: sha512-y7gVzrIs8GjTAMygX9TG7ezqi7N7O8s6MZwDSJX29+nj46+tELTGgFLCUu+7Hzu+H8+6aVT+OLWVxTkyYsukSA==}
     engines: {node: '>=16.9.0'}
     dependencies:
       css-selector-tokenizer: 0.8.0
@@ -4119,10 +4119,14 @@ packages:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
     dev: false
 
-  /json-stable-stringify@1.0.2:
-    resolution: {integrity: sha512-eunSSaEnxV12z+Z73y/j5N37/In40GK4GmsSy+tEHJMxknvqnA7/djeYtAgW0GsWHUfg+847WJjKaEylk2y09g==}
+  /json-stable-stringify@1.1.0:
+    resolution: {integrity: sha512-zfA+5SuwYN2VWqN1/5HZaDzQKLJHaBVMZIIM+wuYjdptkaQsqzDdqjqf+lZZJUuJq1aanHiY8LhH8LmH+qBYJA==}
+    engines: {node: '>= 0.4'}
     dependencies:
+      call-bind: 1.0.5
+      isarray: 2.0.5
       jsonify: 0.0.1
+      object-keys: 1.1.1
     dev: false
 
   /json-to-pretty-yaml@1.2.2:
