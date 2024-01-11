@@ -18,3 +18,7 @@ body[data-color-mode] {
 .markdown-body a:has(> img) {
   @apply no-underline;
 }
+
+.markdown-body img[src$="google-play-badge.png"] {
+  height: 56px;
+}
