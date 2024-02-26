@@ -12,23 +12,23 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - id: get-store-path
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.get-store-path.outputs.STORE_PATH }}
           key: pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             pnpm-store-
             pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/.next/cache
           key: nextjs-${{ hashFiles('pnpm-lock.yaml') }}
@@ -54,7 +54,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CONTAINER_NAME: thursday
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login into registry
         run: echo $GITHUB_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
       - name: Build Docker image
