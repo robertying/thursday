@@ -12,6 +12,7 @@ const getCourseDetail = cache(async (id: string) => {
         course_by_pk(id: $id) {
           id
           name
+          englishName
           teacher {
             id
             name
@@ -64,7 +65,11 @@ const CourseDetail: React.FC<{
   return (
     <main className="min-h-screen flex flex-col justify-center items-center py-16 px-5 prose-h1:mb-2 prose-h1:leading-tight prose-h2:mt-4 prose-p:my-0">
       <div className="card p-12 bg-base-100 shadow-xl">
-        <h1>{course.name}</h1>
+        <h1>
+          {course.name}
+          <br />
+          {course.englishName === course.name ? null : course.englishName}
+        </h1>
         <h2>{course.teacher.name}</h2>
         <p>
           {course.number}-{course.index}

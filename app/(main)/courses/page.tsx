@@ -56,6 +56,7 @@ const CourseX: React.FC<{
                 {
                   _or: [
                     { name: { _ilike: $query } }
+                    { englishName: { _ilike: $query } }
                     { teacher: { name: { _ilike: $query } } }
                   ]
                 }
@@ -66,6 +67,7 @@ const CourseX: React.FC<{
           ) {
             id
             name
+            englishName
             teacher {
               id
               name
@@ -114,7 +116,13 @@ const CourseX: React.FC<{
             {courses.map((course) => (
               <tr key={course.id}>
                 <td>{getSemesterTextFromId(course.semester_id, true)}</td>
-                <td>{course.name}</td>
+                <td>
+                  {course.name}
+                  <br />
+                  {course.englishName === course.name
+                    ? null
+                    : course.englishName}
+                </td>
                 <td>{course.teacher.name}</td>
                 <td className="text-right">
                   <Link
