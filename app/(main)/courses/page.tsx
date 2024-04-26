@@ -12,11 +12,14 @@ export async function generateMetadata({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }): Promise<Metadata> {
-  const query = searchParams.q ?? "";
+  const query = (searchParams.q ?? "") as string;
+  const semesterId = (searchParams.s ??
+    process.env.CURRENT_SEMESTER_ID!) as string;
+  const semesterText = getSemesterTextFromId(semesterId, true);
 
   return {
     title: query
-      ? `${query} - 搜索｜courseX - 课程信息共享计划`
+      ? `${query} - ${semesterText} - 搜索｜courseX - 课程信息共享计划`
       : `courseX - 课程信息共享计划`,
     description: "星期四大学课程信息共享计划。",
   };
@@ -25,31 +28,51 @@ export async function generateMetadata({
 const CourseX: React.FC<{
   searchParams: { [key: string]: string | string[] | undefined };
 }> = async ({ searchParams }) => {
-  const currentSemesterId = process.env.CURRENT_SEMESTER_ID;
-  let currentSemesterCourseCount = 0;
-  if (currentSemesterId) {
-    const currentSemesterCourseCountResponse = await client.request(
-      graphql(/* GraphQL */ `
-        query GetCourseCount($semesterId: String!) {
-          course_aggregate(where: { semester_id: { _eq: $semesterId } }) {
-            aggregate {
-              count
-            }
+  const query = searchParams.q ?? "";
+  const semesterId = (searchParams.s ??
+    process.env.CURRENT_SEMESTER_ID!) as string;
+
+  const allSemestersResponse = await client.request(
+    graphql(/* GraphQL */ `
+      query GetAllSemesters {
+        course_aggregate(
+          distinct_on: semester_id
+          order_by: { semester_id: desc }
+        ) {
+          aggregate {
+            count(columns: semester_id, distinct: true)
+          }
+          nodes {
+            semester_id
           }
         }
-      `),
-      { semesterId: currentSemesterId },
-    );
-    currentSemesterCourseCount =
-      currentSemesterCourseCountResponse.course_aggregate.aggregate?.count ?? 0;
-  }
+      }
+    `)
+  );
+  const allSemesters = allSemestersResponse.course_aggregate.nodes.map(
+    (node) => node.semester_id
+  );
 
-  const query = searchParams.q ?? "";
+  const selectedSemesterCourseCountResponse = await client.request(
+    graphql(/* GraphQL */ `
+      query GetCourseCount($semesterId: String!) {
+        course_aggregate(where: { semester_id: { _eq: $semesterId } }) {
+          aggregate {
+            count
+          }
+        }
+      }
+    `),
+    { semesterId }
+  );
+  const selectedSemesterCourseCount =
+    selectedSemesterCourseCountResponse.course_aggregate.aggregate?.count ?? 0;
+
   let courses: GetCoursesQuery["course"] | null = null;
   if (query) {
     const response = await client.request(
       graphql(/* GraphQL */ `
-        query GetCourses($query: String!, $currentSemesterId: String!) {
+        query GetCourses($query: String!, $semesterId: String!) {
           course(
             where: {
               _and: [
@@ -60,7 +83,7 @@ const CourseX: React.FC<{
                     { teacher: { name: { _ilike: $query } } }
                   ]
                 }
-                { semester_id: { _gte: $currentSemesterId } }
+                { semester_id: { _eq: $semesterId } }
               ]
             }
             order_by: [{ semester_id: desc }, { updated_at: desc }]
@@ -76,7 +99,7 @@ const CourseX: React.FC<{
           }
         }
       `),
-      { query: `%${query}%`, currentSemesterId: currentSemesterId ?? "0" },
+      { query: `%${query}%`, semesterId }
     );
     courses = response.course;
   }
@@ -87,18 +110,15 @@ const CourseX: React.FC<{
         course<span className="text-primary">X</span>
       </h1>
       <p className="pb-8">课程信息共享计划</p>
-      {currentSemesterId && currentSemesterCourseCount !== 0 && (
-        <p className="pb-4 text-base">
-          已收录 {getSemesterTextFromId(currentSemesterId)}课程{" "}
-          {currentSemesterCourseCount} 门。
-        </p>
-      )}
       <Suspense
         fallback={
           <span className="loading loading-spinner loading-lg text-primary min-h-12"></span>
         }
       >
-        <SearchBar />
+        <SearchBar
+          allSemesters={allSemesters}
+          selectedSemesterCourseCount={selectedSemesterCourseCount}
+        />
       </Suspense>
       {courses === null ? null : courses.length === 0 ? (
         <p className="pt-4">未找到相关课程。</p>
