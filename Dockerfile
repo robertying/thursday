@@ -3,8 +3,8 @@ FROM node:22-alpine AS base
 FROM base AS deps
 WORKDIR /app
 
-RUN corepack install
 COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && corepack install
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
@@ -19,7 +19,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN corepack install
+RUN corepack enable && corepack install
 RUN pnpm codegen
 RUN pnpm build
 
