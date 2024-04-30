@@ -16,7 +16,7 @@ const SearchBar: React.FC<{
   const [query, setQuery] = useState(initialQuery);
 
   const handleSemesterChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("s", event.target.value);

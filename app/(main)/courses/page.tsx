@@ -47,10 +47,10 @@ const CourseX: React.FC<{
           }
         }
       }
-    `)
+    `),
   );
   const allSemesters = allSemestersResponse.course_aggregate.nodes.map(
-    (node) => node.semester_id
+    (node) => node.semester_id,
   );
 
   const selectedSemesterCourseCountResponse = await client.request(
@@ -63,7 +63,7 @@ const CourseX: React.FC<{
         }
       }
     `),
-    { semesterId }
+    { semesterId },
   );
   const selectedSemesterCourseCount =
     selectedSemesterCourseCountResponse.course_aggregate.aggregate?.count ?? 0;
@@ -99,7 +99,7 @@ const CourseX: React.FC<{
           }
         }
       `),
-      { query: `%${query}%`, semesterId }
+      { query: `%${query}%`, semesterId },
     );
     courses = response.course;
   }
