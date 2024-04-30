@@ -20,10 +20,10 @@ const LearnXCompanion: React.FC = async () => {
   const html = await markdownToHtml(md);
   const content = html
     .replace(
-      /(src|href)="(?!https:|http:|#)(.*?)"/gi,
-      `$1="https://cdn.jsdelivr.net/gh/robertying/learnX-companion@main/$2"`,
+      /(src|href)="(?!(https?:|\/\/|\/|#))(.*?)"/gi,
+      `$1="https://cdn.jsdelivr.net/gh/robertying/learnX-companion@main/$3"`,
     )
-    .replace(/href="#(.*?)"/gi, `href="#user-content-$1"`);
+    .replace(/(href="#)([^"]*)"/gi, `$1user-content-$2"`);
 
   return (
     <article

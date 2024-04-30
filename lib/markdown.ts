@@ -13,6 +13,7 @@ const schema: Schema = {
   attributes: {
     ...defaultSchema.attributes,
     h2: ["id", ["className", "sr-only"]],
+    a: [...defaultSchema.attributes!.a, "target", "rel"],
   },
 };
 

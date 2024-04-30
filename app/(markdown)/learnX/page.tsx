@@ -17,10 +17,12 @@ const LearnX: React.FC = async () => {
   const md = await response.text();
 
   const html = await markdownToHtml(md);
-  const content = html.replace(
-    /(src|href)="(?!https:|http:)(.*?)"/gi,
-    `$1="https://cdn.jsdelivr.net/gh/robertying/learnX@main/$2"`,
-  );
+  const content = html
+    .replace(
+      /(src|href)="(?!(https?:|\/\/|\/|#))(.*?)"/gi,
+      `$1="https://cdn.jsdelivr.net/gh/robertying/learnX@main/$3"`,
+    )
+    .replace(/(href="#)([^"]*)"/gi, `$1user-content-$2"`);
 
   return (
     <article
