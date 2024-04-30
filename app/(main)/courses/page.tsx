@@ -105,7 +105,7 @@ const CourseX: React.FC<{
   }
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center py-16 px-5 prose-h1:mb-2 prose-p:my-0 text-center">
+    <main className="min-h-dvh flex flex-col justify-center items-center py-16 px-5 prose-h1:mb-2 prose-p:my-0 text-center">
       <h1>
         course<span className="text-primary">X</span>
       </h1>

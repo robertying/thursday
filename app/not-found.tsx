@@ -9,7 +9,7 @@ export const metadata = {
 
 const NotFound: React.FC = () => {
   return (
-    <div className="h-screen flex justify-center items-center py-16 px-5">
+    <div className="h-dvh flex justify-center items-center py-16 px-5">
       <div className="card p-12 bg-base-100 shadow-xl">
         <h1>404 Not Found</h1>
         <p>所访问的页面不存在。</p>
