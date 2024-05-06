@@ -29,9 +29,10 @@ const SearchBar: React.FC<{
 
   return (
     <form className="w-full max-w-sm flex flex-col space-y-4">
-      <p className="text-sm">
+      <label htmlFor="semester-select" className="text-sm font-normal">
         已收录{" "}
         <select
+          id="semester-select"
           className="inline-block select select-sm select-bordered"
           name="s"
           value={selectedSemesterId}
@@ -44,10 +45,10 @@ const SearchBar: React.FC<{
           ))}
         </select>{" "}
         课程 {selectedSemesterCourseCount} 门
-      </p>
+      </label>
       <div className="flex space-x-2">
         <input
-          type="text"
+          type="search"
           autoCapitalize="none"
           autoComplete="off"
           spellCheck="false"
