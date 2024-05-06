@@ -123,25 +123,25 @@ const CourseX: React.FC<{
       {courses === null ? null : courses.length === 0 ? (
         <p className="pt-4">未找到相关课程。</p>
       ) : (
-        <table className="table table-fixed mt-12">
+        <table className="table table-fixed mt-8 mb-0">
           <thead>
             <tr>
-              <th>学期</th>
-              <th>课程</th>
+              <th className="w-11/12">课程</th>
               <th className="w-24">教师</th>
-              <th></th>
+              <th className="w-20"></th>
             </tr>
           </thead>
           <tbody>
             {courses.map((course) => (
               <tr key={course.id}>
-                <td>{getSemesterTextFromId(course.semester_id, true)}</td>
                 <td>
                   {course.name}
                   <br />
-                  {course.englishName === course.name
-                    ? null
-                    : course.englishName}
+                  <span className="text-[0.875em]">
+                    {course.englishName === course.name
+                      ? null
+                      : course.englishName}
+                  </span>
                 </td>
                 <td>{course.teacher.name}</td>
                 <td className="text-right">

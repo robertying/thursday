@@ -9,7 +9,7 @@ const BreadCrumbs: React.FC = () => {
   const segments = pathname.split("/").filter((segment) => segment !== "");
 
   return (
-    <div className="prose-ul:my-0 text-sm max-w-screen breadcrumbs absolute">
+    <div className="prose-ul:my-0 mt-1 text-sm max-w-screen breadcrumbs absolute">
       <ul>
         {segments.length > 0 && (
           <li>

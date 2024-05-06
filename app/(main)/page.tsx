@@ -6,7 +6,7 @@ const FeatureCard: React.FC<{
   url: string;
 }> = ({ title, description, url }) => (
   <Link
-    className="btn btn-block prose-base h-auto flex flex-col items-center normal-case max-w-sm px-4 py-6 space-y-2 text-base sm:text-lg"
+    className="btn btn-block prose-base h-auto flex flex-col items-center normal-case max-w-sm px-4 py-6 text-base sm:text-lg"
     href={url}
   >
     <h2>{title}</h2>
