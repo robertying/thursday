@@ -29,7 +29,7 @@
     "eslint-config-next": "14.2.4",
     "expo-server-sdk": "3.10.0",
     "graphql": "16.8.2",
-    "graphql-request": "7.0.1",
+    "graphql-request": "6.1.0",
     "hast-util-sanitize": "5.0.1",
     "jsonwebtoken": "9.0.2",
     "next": "14.2.4",
