@@ -4,7 +4,6 @@ const nextConfig = {
   compress: false,
   experimental: {
     reactCompiler: true,
-    ppr: true,
   },
 };
 
