@@ -29,11 +29,10 @@ const getCourseDetail = cache(async (id: string) => {
   return response.course_by_pk;
 });
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
+export async function generateMetadata(props: {
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const id = params.id;
 
   const course = await getCourseDetail(id);
@@ -47,8 +46,9 @@ export async function generateMetadata({
 }
 
 const CourseDetail: React.FC<{
-  params: { id: string };
-}> = async ({ params }) => {
+  params: Promise<{ id: string }>;
+}> = async (props) => {
+  const params = await props.params;
   const id = params.id;
 
   const course = await getCourseDetail(id);

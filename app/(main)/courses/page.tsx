@@ -7,11 +7,10 @@ import { getSemesterTextFromId } from "lib/format";
 import { graphql } from "gql";
 import { GetCoursesQuery } from "gql/graphql";
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
+export async function generateMetadata(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   const query = (searchParams.q ?? "") as string;
   const semesterId = (searchParams.s ??
     process.env.CURRENT_SEMESTER_ID!) as string;
@@ -26,8 +25,9 @@ export async function generateMetadata({
 }
 
 const CourseX: React.FC<{
-  searchParams: { [key: string]: string | string[] | undefined };
-}> = async ({ searchParams }) => {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}> = async (props) => {
+  const searchParams = await props.searchParams;
   const query = searchParams.q ?? "";
   const semesterId = (searchParams.s ??
     process.env.CURRENT_SEMESTER_ID!) as string;
