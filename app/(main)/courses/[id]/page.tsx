@@ -64,7 +64,7 @@ const CourseDetail: React.FC<{
 
   return (
     <main className="min-h-dvh flex flex-col justify-center items-center py-16 px-5 prose-h1:mt-4 prose-h1:mb-0 prose-h1:leading-tight prose-h2:mt-4 prose-h2:mb-4 prose-p:my-0">
-      <div className="card p-12 pb-8 bg-base-100 shadow-xl">
+      <div className="container card p-12 pb-8 bg-base-100 shadow-xl">
         <p>{getSemesterTextFromId(course.semester_id)}</p>
         <p>
           {course.number}-{course.index}
