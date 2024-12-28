@@ -34,11 +34,6 @@ const Home: React.FC = () => {
           description="网络学堂新选择"
           url="/learnX"
         />
-        <FeatureCard
-          title="learnX Companion"
-          description="learnX 推送通知支持"
-          url="/learnX-companion"
-        />
       </div>
     </main>
   );
