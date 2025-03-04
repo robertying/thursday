@@ -2,11 +2,7 @@
 @import "@primer/css/dist/color-modes.css" layer(base);
 @import "@primer/css/dist/base.css" layer(base);
 @import "@primer/css/dist/markdown.css" layer(base);
-@reference "../app.css"
-
-body[data-color-mode] {
-  background-color: transparent !important;
-}
+@reference "../app.css";
 
 .markdown-body img {
   @apply inline;
