@@ -1,8 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: "#9a25ae";
+  --color-primary-content: #ffffff;
+  --color-secondary: #6b586b;
+  --color-secondary-content: #ffffff;
+  --color-accent: #82524a;
+  --color-accent-content: #ffffff;
+}
+@plugin "daisyui/theme" {
+  name: "dark";
+  prefersdark: true;
+  --color-primary: #f9abff;
+  --color-primary-content: #570066;
+  --color-secondary: #d7bfd5;
+  --color-secondary-content: #3b2b3c;
+  --color-accent: #f6b8ad;
+  --color-accent-content: #4c251f;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+a {
+  color: var(--color-primary);
+}
 
 a.btn {
+  color: unset;
   text-decoration: none !important;
 }
 

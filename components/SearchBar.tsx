@@ -33,7 +33,7 @@ const SearchBar: React.FC<{
         已收录{" "}
         <select
           id="semester-select"
-          className="inline-block select select-sm select-bordered"
+          className="inline-block select focus:select-primary select-sm w-auto mx-0.5"
           name="s"
           value={selectedSemesterId}
           onChange={handleSemesterChange}
@@ -55,7 +55,7 @@ const SearchBar: React.FC<{
           enterKeyHint="search"
           name="q"
           placeholder="课程名 / 教师名"
-          className="input input-bordered w-full"
+          className="input focus:input-primary w-full"
           value={query}
           onChange={handleQueryChange}
         />

@@ -22,7 +22,7 @@ export default function RootLayout({
         data-color-mode="auto"
         data-light-theme="light"
         data-dark-theme="dark"
-        className="mx-auto prose dark:prose-invert prose-base sm:prose-lg md:prose-lg lg:prose-lg xl:prose-xl 2xl:prose-xl"
+        className="mx-auto! prose dark:prose-invert prose-base sm:prose-lg md:prose-lg lg:prose-lg xl:prose-xl 2xl:prose-xl"
       >
         <BreadCrumbs />
         {children}

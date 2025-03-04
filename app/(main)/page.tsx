@@ -16,7 +16,7 @@ const FeatureCard: React.FC<{
 
 const Home: React.FC = () => {
   return (
-    <main className="prose-a:no-underline hover:prose-a:no-underline prose-h1:mb-4 prose-h2:mb-0 prose-h2:mt-0 prose-p:my-0 py-16 px-5 text-center min-h-dvh flex flex-col items-center justify-center">
+    <main className="prose-a:no-underline prose-a:hover:no-underline prose-h1:mb-4 prose-h2:mb-0 prose-h2:mt-0 prose-p:my-0 py-16 px-5 text-center min-h-dvh flex flex-col items-center justify-center">
       <div>
         <h1>
           星期四 <span className="text-primary">Thu</span>rsday
