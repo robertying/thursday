@@ -11,7 +11,3 @@ Course Information Sharing Project
 ### [learnX](https://tsinghua.app/learnX)
 
 App for Tsinghua University Web Learning
-
-### [learnX Companion](https://tsinghua.app/learnX-companion)
-
-Push notification support for learnX
