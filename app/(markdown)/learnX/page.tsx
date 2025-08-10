@@ -1,8 +1,12 @@
+import type { Metadata } from "next";
 import { markdownToHtml } from "lib/markdown";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "learnX - 清华大学网络学堂 App",
   description: "清华大学网络学堂 App，以 React Native 构建。",
+  itunes: {
+    appId: "1459073115",
+  },
 };
 
 const LearnX: React.FC = async () => {
