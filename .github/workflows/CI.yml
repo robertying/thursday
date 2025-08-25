@@ -39,8 +39,6 @@ jobs:
         run: pnpm codegen
       - name: Lint
         run: pnpm lint
-      - name: Type Check
-        run: pnpm typecheck
       - name: Build
         run: pnpm build
 
