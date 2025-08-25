@@ -63,7 +63,7 @@ export async function POST(req: Request) {
       data: notice,
       sound: "default",
       _contentAvailable: true,
-    } as any);
+    });
   }
   for (const assignment of payload.assignments) {
     messages.push({
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
       data: assignment,
       sound: "default",
       _contentAvailable: true,
-    } as any);
+    });
   }
   for (const file of payload.files) {
     messages.push({
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
       data: file,
       sound: "default",
       _contentAvailable: true,
-    } as any);
+    });
   }
   for (const grade of payload.grades) {
     messages.push({
@@ -96,7 +96,7 @@ export async function POST(req: Request) {
       data: grade,
       sound: "default",
       _contentAvailable: true,
-    } as any);
+    });
   }
 
   const chunks = expo.chunkPushNotifications(messages);

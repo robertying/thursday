@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       accessToken,
     });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 }
