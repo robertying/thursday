@@ -7,7 +7,7 @@ const redirects: Record<string, string> = {
   "/xlearn": "/learnX",
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const url = req.nextUrl.pathname.toLowerCase();
 
   if (redirects[url]) {
