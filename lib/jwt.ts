@@ -36,22 +36,26 @@ export const encodeAccessToken = (user: { id: string; role: string }) => {
 
 export const verify = (token: string | null, type: "refresh" | "access") => {
   return new Promise<JwtPayload>((resolve, reject) => {
-    if (!token) {
-      return reject(new Error("No token provided to verify"));
+    if (!token) return reject(new Error("No token provided to verify"));
+
+    const verifyOnce = (secret: string, onFail?: (err: unknown) => void) => {
+      jwt.verify(token, secret, { algorithms: ["HS512"] }, (err, decoded) => {
+        if (!err && decoded) return resolve(decoded as JwtPayload);
+        if (onFail) return onFail(err);
+        return reject(err ?? new Error("JWT verification failed"));
+      });
+    };
+
+    if (type === "access") {
+      const secret = process.env.AUTH_ACCESS_TOKEN_SECRET!;
+      return verifyOnce(secret);
     }
-    jwt.verify(
-      token,
-      type === "access"
-        ? process.env.AUTH_ACCESS_TOKEN_SECRET!
-        : process.env.AUTH_REFRESH_TOKEN_SECRET!,
-      { algorithms: ["HS512"] },
-      (err, decoded) => {
-        if (err || !decoded) {
-          return reject(err);
-        } else {
-          return resolve(decoded as JwtPayload);
-        }
-      },
-    );
+
+    const current = process.env.AUTH_REFRESH_TOKEN_SECRET!;
+    const previous = process.env.AUTH_REFRESH_TOKEN_SECRET_PREV!;
+
+    return verifyOnce(current, () => {
+      return verifyOnce(previous);
+    });
   });
 };
