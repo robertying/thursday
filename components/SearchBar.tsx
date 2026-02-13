@@ -33,7 +33,7 @@ const SearchBar: React.FC<{
         已收录{" "}
         <select
           id="semester-select"
-          className="inline-block select focus:select-primary select-sm w-auto mx-0.5"
+          className="select focus:select-primary select-sm w-auto mx-0.5 mb-1"
           name="s"
           value={selectedSemesterId}
           onChange={handleSemesterChange}
