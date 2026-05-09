@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: lts/*
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
       - id: get-store-path
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v5
