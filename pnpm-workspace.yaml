@@ -3,3 +3,4 @@ allowBuilds:
   unrs-resolver: true
 onlyBuiltDependencies:
   - sharp
+minimumReleaseAge: 0
