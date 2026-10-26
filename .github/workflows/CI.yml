@@ -6,13 +6,16 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  GRAPHQL_API_URL: https://api.tsinghua.app
-  GRAPHQL_ADMIN_SECRET: ${{ secrets.GRAPHQL_ADMIN_SECRET }}
+# Jobs only read the repo unless they say otherwise.
+permissions:
+  contents: read
 
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      GRAPHQL_API_URL: https://api.tsinghua.app
+      GRAPHQL_ADMIN_SECRET: ${{ secrets.GRAPHQL_ADMIN_SECRET }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -44,19 +47,48 @@ jobs:
       - name: Build
         run: pnpm build
 
-  deploy:
+  # Publishes ghcr.io/<repo>/thursday as :<commit> and :latest; Watchtower on the server rolls out :latest.
+  image:
+    name: Build and push the image
     needs: [check]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    env:
-      USERNAME: ${{ github.actor }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      CONTAINER_NAME: thursday
+    permissions:
+      contents: read
+      packages: write
+    concurrency:
+      group: image-${{ github.ref }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7
-      - name: Login into registry
-        run: echo $GITHUB_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
-      - name: Build Docker image
-        run: docker build --build-arg GRAPHQL_API_URL=$GRAPHQL_API_URL --build-arg GRAPHQL_ADMIN_SECRET=$GRAPHQL_ADMIN_SECRET -t ghcr.io/${{ github.repository }}/$CONTAINER_NAME:latest .
-      - name: Push to registry
-        run: docker push ghcr.io/${{ github.repository }}/$CONTAINER_NAME:latest
+      - name: Image name and tag
+        id: meta
+        run: |
+          echo "image=ghcr.io/${GITHUB_REPOSITORY,,}/thursday" >> "$GITHUB_OUTPUT"
+          echo "rev=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          pull: true
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.rev }}
+            ${{ steps.meta.outputs.image }}:latest
+          labels: org.opencontainers.image.revision=${{ github.sha }}
+          build-args: GRAPHQL_API_URL=https://api.tsinghua.app
+          secrets: graphql_admin_secret=${{ secrets.GRAPHQL_ADMIN_SECRET }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      # Keeps the newest 10 commit tags; untagged leftovers of earlier pushes are deleted.
+      - uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          package: ${{ github.event.repository.name }}/thursday
+          keep-n-tagged: 10
+          exclude-tags: latest
+          delete-untagged: true

@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM node:lts-alpine AS base
 
 FROM base AS deps
@@ -12,15 +13,15 @@ WORKDIR /app
 
 ARG GRAPHQL_API_URL
 ENV GRAPHQL_API_URL=$GRAPHQL_API_URL
-ARG GRAPHQL_ADMIN_SECRET
-ENV GRAPHQL_ADMIN_SECRET=$GRAPHQL_ADMIN_SECRET
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN corepack enable && corepack install
-RUN pnpm codegen
+# Codegen introspects Hasura. The admin secret is mounted for this step only, so it is
+# never stored in a layer, the image config or the build cache.
+RUN --mount=type=secret,id=graphql_admin_secret,env=GRAPHQL_ADMIN_SECRET pnpm codegen
 RUN pnpm build
 
 FROM base AS runner
