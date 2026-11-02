@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM node:lts-alpine AS base
+# Node 25+ no longer bundles corepack, so install it explicitly.
+RUN npm install -g corepack
 
 FROM base AS deps
 WORKDIR /app
