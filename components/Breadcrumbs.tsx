@@ -26,7 +26,6 @@ const BreadCrumbs: React.FC = () => {
           </li>
         )}
         {segments?.[0] === "learnX" && <li>learnX</li>}
-        {segments?.[0] === "learnX-companion" && <li>learnX Companion</li>}
         {segments?.[0] === "courses" && segments.length === 2 && (
           <li>课程详情</li>
         )}

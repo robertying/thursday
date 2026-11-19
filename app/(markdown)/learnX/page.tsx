@@ -14,7 +14,7 @@ const LearnX: React.FC = async () => {
     "https://raw.githubusercontent.com/robertying/learnX/main/README.md",
     {
       next: {
-        revalidate: 24 * 60 * 60, // 24h
+        revalidate: 60 * 60, // 1h
       },
     },
   );

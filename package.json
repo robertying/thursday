@@ -29,7 +29,6 @@
     "eslint": "10.15.0",
     "eslint-config-next": "16.4.6",
     "eslint-config-prettier": "10.1.8",
-    "expo-server-sdk": "8.0.0",
     "graphql": "17.1.0",
     "graphql-request": "7.4.0",
     "hast-util-sanitize": "5.0.2",
