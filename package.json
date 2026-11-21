@@ -1,7 +1,7 @@
 {
   "name": "thursday",
   "private": true,
-  "packageManager": "pnpm@12.18.0+sha512.9d7882d5dc82147ecfc4e062aa34834e0ad0296710a1837a1115ae012127d36b7109e321ac1598a1dd0a65597681b1e99917e12ed0d749eae91187943363beb3",
+  "packageManager": "pnpm@12.21.0+sha512.66fd8278ee28935ce951792d34367ff3af5c432a2756445823029533835b8da529bbe0be5130afd56ed0713fb8789e47bad82d93bd5ae2fe54b15562d6276ef0",
   "scripts": {
     "codegen": "graphql-codegen --config codegen.ts",
     "dev": "next dev",
@@ -23,7 +23,7 @@
     "@types/react-dom": "19.3.0",
     "@typescript/native": "npm:typescript@7.0.2",
     "babel-plugin-react-compiler": "1.0.0",
-    "daisyui": "5.8.0",
+    "daisyui": "5.8.2",
     "dotenv": "18.0.10",
     "encoding": "0.1.14",
     "eslint": "10.15.0",
