@@ -7,11 +7,8 @@ import {
   type UploadedCourse,
 } from "lib/learnxCourses";
 
-// learnX uploads each user's course list here. The route is open to anyone, so it
-// only passes on courses that look real, and writes them as the `learnx` Hasura
-// role: the database triggers in db/learnx-write-rules.sql decide what an upload
-// may change, the same as for old learnX versions that write with that role
-// directly.
+// learnX uploads each user's course list here. Only courses that pass the checks in
+// lib/learnxCourses.ts are saved.
 
 const WINDOW_MS = 10 * 60 * 1000;
 // learnX uploads on every app start, and campus networks put many students
@@ -38,7 +35,7 @@ const clientIp = (req: Request) =>
   req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
   "unknown";
 
-// Admin secret, acting as the learnx role so its permissions and triggers apply.
+// Writes with the learnx role's permissions.
 const learnxClient = new GraphQLClient(
   `${process.env.GRAPHQL_API_URL}/v1/graphql`,
   {
@@ -50,7 +47,7 @@ const learnxClient = new GraphQLClient(
   },
 );
 
-// The mutation learnX has always sent; the triggers turn it into what's allowed.
+// The same mutation learnX sends.
 const UploadCourses = graphql(/* GraphQL */ `
   mutation UploadLearnXCourses($objects: [course_insert_input!]!) {
     insert_course(
@@ -79,7 +76,7 @@ const toRow = (c: UploadedCourse) => ({
   semester_id: c.semesterId,
   number: c.number,
   index: c.index,
-  // The column is NOT NULL; the triggers never let '[]' replace a stored schedule.
+  // The column is NOT NULL; an empty schedule never replaces a stored one.
   time_location: JSON.stringify(c.timeAndLocation ?? []),
 });
 
@@ -124,7 +121,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 
-  // One line per upload in the container log, to find and undo bad data. No IP:
+  // One line per upload in the log, to find and undo bad data. No IP:
   // learnX's privacy policy says uploads carry nothing that identifies the user.
   console.log(
     JSON.stringify({
