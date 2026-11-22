@@ -1,6 +1,5 @@
-// Checks the course list learnX uploads to courseX. learnX ships with no secret, so
-// anyone can call the upload route; these checks and the write rules in
-// db/learnx-write-rules.sql are what keep the public course pages sane.
+// Checks the course list learnX uploads to courseX, so only courses that look real
+// reach the course pages.
 
 export interface UploadedCourse {
   id: string;
