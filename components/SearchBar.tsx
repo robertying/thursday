@@ -6,12 +6,11 @@ import { getSemesterTextFromId } from "lib/format";
 
 const SearchBar: React.FC<{
   allSemesters: string[];
+  selectedSemesterId: string;
   selectedSemesterCourseCount: number;
-}> = ({ allSemesters, selectedSemesterCourseCount }) => {
+}> = ({ allSemesters, selectedSemesterId, selectedSemesterCourseCount }) => {
   const searchParams = useSearchParams();
-  const initialQuery = (searchParams.get("q") ?? "") as string;
-  const selectedSemesterId = (searchParams.get("s") ??
-    process.env.CURRENT_SEMESTER_ID!) as string;
+  const initialQuery = searchParams.get("q") ?? "";
 
   const [query, setQuery] = useState(initialQuery);
 
