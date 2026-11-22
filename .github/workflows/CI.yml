@@ -49,7 +49,7 @@ jobs:
       - name: Build
         run: pnpm build
 
-  # Publishes ghcr.io/<repo>/thursday as :<commit> and :latest; Watchtower on the server rolls out :latest.
+  # Publishes ghcr.io/<repo>/thursday as :<commit> and :latest.
   image:
     name: Build and push the image
     needs: [check]
