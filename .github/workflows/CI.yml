@@ -15,13 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GRAPHQL_API_URL: https://api.tsinghua.app
-      GRAPHQL_ADMIN_SECRET: ${{ secrets.GRAPHQL_ADMIN_SECRET }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: lts/*
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       - id: get-store-path
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v6
@@ -40,14 +39,17 @@ jobs:
             nextjs-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install
         run: pnpm install --frozen-lockfile
+      # Only codegen gets the admin secret, not install, lint or build.
       - name: Codegen
         run: pnpm codegen
+        env:
+          GRAPHQL_ADMIN_SECRET: ${{ secrets.GRAPHQL_ADMIN_SECRET }}
       - name: Lint
         run: pnpm lint
       - name: Build
         run: pnpm build
 
-  # Publishes ghcr.io/<repo>/thursday as :<commit> and :latest; Watchtower on the server rolls out :latest.
+  # Publishes ghcr.io/<repo>/thursday as :<commit> and :latest.
   image:
     name: Build and push the image
     needs: [check]

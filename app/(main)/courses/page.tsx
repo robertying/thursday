@@ -7,13 +7,26 @@ import { getSemesterTextFromId } from "lib/format";
 import { graphql } from "gql";
 import { GetCoursesQuery } from "gql/graphql";
 
+type SearchParams = { [key: string]: string | string[] | undefined };
+
+// A repeated parameter (?s=a&s=b) arrives as an array; use its first value.
+const firstParam = (value: string | string[] | undefined) =>
+  (Array.isArray(value) ? value[0] : value) ?? "";
+
+const readParams = (searchParams: SearchParams) => ({
+  query: firstParam(searchParams.q).trim(),
+  semesterId: firstParam(searchParams.s) || process.env.CURRENT_SEMESTER_ID!,
+});
+
+// The search is a substring match, so % and _ in it are matched literally.
+const escapeLike = (s: string) => s.replace(/[\\%_]/g, "\\$&");
+
+const MAX_RESULTS = 100;
+
 export async function generateMetadata(props: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<SearchParams>;
 }): Promise<Metadata> {
-  const searchParams = await props.searchParams;
-  const query = (searchParams.q ?? "") as string;
-  const semesterId = (searchParams.s ??
-    process.env.CURRENT_SEMESTER_ID!) as string;
+  const { query, semesterId } = readParams(await props.searchParams);
   const semesterText = getSemesterTextFromId(semesterId, true);
 
   return {
@@ -25,12 +38,9 @@ export async function generateMetadata(props: {
 }
 
 const CourseX: React.FC<{
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<SearchParams>;
 }> = async (props) => {
-  const searchParams = await props.searchParams;
-  const query = searchParams.q ?? "";
-  const semesterId = (searchParams.s ??
-    process.env.CURRENT_SEMESTER_ID!) as string;
+  const { query, semesterId } = readParams(await props.searchParams);
 
   const allSemestersResponse = await client.request(
     graphql(/* GraphQL */ `
@@ -72,7 +82,7 @@ const CourseX: React.FC<{
   if (query) {
     const response = await client.request(
       graphql(/* GraphQL */ `
-        query GetCourses($query: String!, $semesterId: String!) {
+        query GetCourses($query: String!, $semesterId: String!, $limit: Int!) {
           course(
             where: {
               _and: [
@@ -87,6 +97,7 @@ const CourseX: React.FC<{
               ]
             }
             order_by: [{ semester_id: desc }, { updated_at: desc }]
+            limit: $limit
           ) {
             id
             name
@@ -99,7 +110,7 @@ const CourseX: React.FC<{
           }
         }
       `),
-      { query: `%${query}%`, semesterId },
+      { query: `%${escapeLike(query)}%`, semesterId, limit: MAX_RESULTS },
     );
     courses = response.course;
   }
@@ -117,6 +128,7 @@ const CourseX: React.FC<{
       >
         <SearchBar
           allSemesters={allSemesters}
+          selectedSemesterId={semesterId}
           selectedSemesterCourseCount={selectedSemesterCourseCount}
         />
       </Suspense>
@@ -156,6 +168,11 @@ const CourseX: React.FC<{
             ))}
           </tbody>
         </table>
+      )}
+      {courses?.length === MAX_RESULTS && (
+        <p className="pt-4 text-sm italic">
+          仅显示前 {MAX_RESULTS} 门课程，请输入更具体的关键词。
+        </p>
       )}
     </main>
   );

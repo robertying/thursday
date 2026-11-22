@@ -3,4 +3,9 @@ allowBuilds:
   unrs-resolver: true
 onlyBuiltDependencies:
   - sharp
-minimumReleaseAge: 0
+# Only install versions published at least a day ago (minutes).
+minimumReleaseAge: 1440
+# Patched versions for advisories in build-time tooling; drop once the parents update.
+overrides:
+  postcss-selector-parser@<6.1.5: ^6.1.6 # GHSA-rj75-hqrm-r3gf, via @tailwindcss/typography
+  minimatch@>=7 <11.0.1: ^11.0.1 # GHSA-g3hv-75wg-m249, via eslint-config-next

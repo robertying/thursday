@@ -18,6 +18,10 @@ const LearnX: React.FC = async () => {
       },
     },
   );
+  // Throwing keeps the last good version instead of caching an error page.
+  if (!response.ok) {
+    throw new Error(`learnX README fetch failed: ${response.status}`);
+  }
   const md = await response.text();
 
   const html = await markdownToHtml(md);
