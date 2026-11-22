@@ -32,7 +32,7 @@ $$;
 
 CREATE OR REPLACE FUNCTION learnx_has_chinese(s text) RETURNS boolean
 LANGUAGE sql IMMUTABLE AS $$
-  SELECT coalesce(s ~ '[㐀-鿿]', false)
+  SELECT coalesce(s ~ '[\u3400-\u9fff]', false)
 $$;
 
 -- Course, teacher and course number ids, as learn.tsinghua uses them.
